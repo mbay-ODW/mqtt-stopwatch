@@ -28,10 +28,7 @@ def on_message_msgs(mosq, obj, msg):
     global timePreviousEvent
     timeCurrentEvent = datetime.datetime.now()
     counter = counter + 1
-    # This callback will only be called for messages with topics that matchs the assigned topics
     #logger.debug('Callback function was initiated')
-    #logger.info('The following payload arrived: %s', msg.payload)
-    #logger.debug('Object with Event-Class will be created')
     timeDelta = timeCurrentEvent - timePreviousEvent
     timePreviousEvent = timeCurrentEvent
     avg.append(timeDelta.total_seconds()*1000)
@@ -43,10 +40,7 @@ def on_message_msgs(mosq, obj, msg):
 
 def main():
     try:
-        logger.debug('Setting prefix within MQTT broker for machine from config file')
-        logger.debug('Initialising MQTT client with loaded credentials for listener')
         client = mqtt.Client()
-        logger.info('MQTT client with loaded credentials was initialised')
         client.message_callback_add(topic, on_message_msgs)
         logger.info('Connecting to MQTT Broker')
         client.connect(broker, 1883, 60)
@@ -62,7 +56,6 @@ def main():
 
 def start():
     try:
-        logger.info('Initially starting triggering of getting all pending operations')
         while True:
             logger.debug(
                 'Starting main loop')
